@@ -1,0 +1,11 @@
+# Build artifacts
+*.o
+9dir
+vdir-linux
+
+# Configuration files
+CLAUDE.md
+
+# System files
+.DS_Store
+*~
