@@ -1,6 +1,7 @@
 # 9dir
 
 minimal file browser based on plan9's vdir
+
 this software is provided to you by shrub industries under the terms of the GNU GPL version 3 license
 
 ## dependencies
