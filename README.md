@@ -4,6 +4,8 @@ minimal file browser based on plan9's vdir
 
 this software is provided to you by shrub industries under the terms of the GNU GPL version 3 license
 
+much of this is to be tested - there are likely bugs
+
 ## dependencies
 
 - X11 development libraries (`libx11-dev` on Debian/Ubuntu)
