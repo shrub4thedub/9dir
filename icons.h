@@ -12,8 +12,9 @@ extern Pixmap up_icon;
 extern Pixmap cd_icon;
 extern Pixmap newfile_icon;
 extern Pixmap newfolder_icon;
+extern Pixmap help_icon;
 
 // Initialize icon pixmaps
-void init_icons(Display *display, Window window, GC gc);
+void init_icons(Display *display, Window window, GC gc, XFontStruct *font);
 
 #endif

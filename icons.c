@@ -9,9 +9,10 @@ Pixmap up_icon = None;
 Pixmap cd_icon = None;
 Pixmap newfile_icon = None;
 Pixmap newfolder_icon = None;
+Pixmap help_icon = None;
 
 // Better geometric icons inspired by Plan 9 design
-void init_icons(Display *display, Window window, GC gc) {
+void init_icons(Display *display, Window window, GC gc, XFontStruct *font) {
     int screen = DefaultScreen(display);
     
     // Create pixmaps - 16x16 for toolbar, 12x12 for folder/file listing
@@ -22,6 +23,7 @@ void init_icons(Display *display, Window window, GC gc) {
     cd_icon = XCreatePixmap(display, window, 16, 16, DefaultDepth(display, screen));
     newfile_icon = XCreatePixmap(display, window, 16, 16, DefaultDepth(display, screen));
     newfolder_icon = XCreatePixmap(display, window, 16, 16, DefaultDepth(display, screen));
+    help_icon = XCreatePixmap(display, window, 16, 16, DefaultDepth(display, screen));
     
     // Clear all pixmaps with light gray background
     XSetForeground(display, gc, 0xEFEFEF);
@@ -32,6 +34,7 @@ void init_icons(Display *display, Window window, GC gc) {
     XFillRectangle(display, cd_icon, gc, 0, 0, 16, 16);
     XFillRectangle(display, newfile_icon, gc, 0, 0, 16, 16);
     XFillRectangle(display, newfolder_icon, gc, 0, 0, 16, 16);
+    XFillRectangle(display, help_icon, gc, 0, 0, 16, 16);
     
     // Draw with dark colors
     XSetForeground(display, gc, BlackPixel(display, screen));
@@ -81,4 +84,9 @@ void init_icons(Display *display, Window window, GC gc) {
     XSetForeground(display, gc, 0x00AA00);
     XFillRectangle(display, newfolder_icon, gc, 12, 7, 1, 3);
     XFillRectangle(display, newfolder_icon, gc, 11, 8, 3, 1);
+    
+    // Help icon - question mark using font
+    XSetForeground(display, gc, BlackPixel(display, screen));
+    XSetFont(display, gc, font->fid);
+    XDrawString(display, help_icon, gc, 5, 12, "?", 1);
 }

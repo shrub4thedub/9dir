@@ -232,3 +232,96 @@ int text_input(const char *prompt, char *buffer, size_t bufsize) {
     
     return result;
 }
+
+void about_dialog(void) {
+    Window dialog_window;
+    XEvent event;
+    int dialog_width = 400;
+    int dialog_height = 180;
+    int screen_width = DisplayWidth(display, screen_num);
+    int screen_height = DisplayHeight(display, screen_num);
+    int x = (screen_width - dialog_width) / 2;
+    int y = (screen_height - dialog_height) / 2;
+    
+    // Create modal dialog window
+    dialog_window = XCreateSimpleWindow(display, RootWindow(display, screen_num),
+                                      x, y, dialog_width, dialog_height, 1,
+                                      BlackPixel(display, screen_num),
+                                      WhitePixel(display, screen_num));
+    
+    // Set window properties
+    XStoreName(display, dialog_window, "About 9dir");
+    XSelectInput(display, dialog_window, ExposureMask | KeyPressMask | ButtonPressMask);
+    XMapWindow(display, dialog_window);
+    
+    // Make it modal
+    XSetTransientForHint(display, dialog_window, window);
+    
+    int done = 0;
+    
+    // Button rectangle
+    int button_width = 80;
+    int button_height = 25;
+    int button_x = (dialog_width - button_width) / 2;
+    int button_y = dialog_height - 40;
+    
+    const char *line1 = "9dir 0.1";
+    const char *line2 = "by shrub industries";
+    const char *line3 = "This software is provided to you under the terms";
+    const char *line4 = "of the GNU GPL V3 license.";
+    
+    while (!done) {
+        XNextEvent(display, &event);
+        
+        if (event.xany.window != dialog_window) continue;
+        
+        switch (event.type) {
+            case Expose:
+                XClearWindow(display, dialog_window);
+                
+                // Draw version and author info centered
+                int line1_w = XTextWidth(font, line1, strlen(line1));
+                int line2_w = XTextWidth(font, line2, strlen(line2));
+                int line3_w = XTextWidth(font, line3, strlen(line3));
+                int line4_w = XTextWidth(font, line4, strlen(line4));
+                
+                XDrawString(display, dialog_window, gc, (dialog_width - line1_w) / 2, 30, line1, strlen(line1));
+                XDrawString(display, dialog_window, gc, (dialog_width - line2_w) / 2, 50, line2, strlen(line2));
+                XDrawString(display, dialog_window, gc, (dialog_width - line3_w) / 2, 80, line3, strlen(line3));
+                XDrawString(display, dialog_window, gc, (dialog_width - line4_w) / 2, 100, line4, strlen(line4));
+                
+                // Draw OK button
+                XDrawRectangle(display, dialog_window, gc, button_x, button_y, button_width, button_height);
+                XDrawString(display, dialog_window, gc, button_x + 35, button_y + 17, "OK", 2);
+                
+                break;
+                
+            case ButtonPress:
+                if (event.xbutton.button == Button1) {
+                    int click_x = event.xbutton.x;
+                    int click_y = event.xbutton.y;
+                    
+                    // Check OK button
+                    if (click_x >= button_x && click_x <= button_x + button_width &&
+                        click_y >= button_y && click_y <= button_y + button_height) {
+                        done = 1;
+                    }
+                }
+                break;
+                
+            case KeyPress: {
+                KeySym keysym;
+                char key_buffer[32];
+                XLookupString(&event.xkey, key_buffer, sizeof(key_buffer), &keysym, NULL);
+                
+                if (keysym == XK_Return || keysym == XK_Escape || keysym == XK_space) {
+                    done = 1;
+                }
+                break;
+            }
+        }
+    }
+    
+    XDestroyWindow(display, dialog_window);
+    XFlush(display);
+}

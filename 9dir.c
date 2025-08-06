@@ -63,7 +63,7 @@ int screen_num;
 XFontStruct *font;
 Colormap colormap;
 Color toolbg, toolfg, viewbg, viewfg, selbg, selfg, scrollbg, scrollfg, high;
-Rectangle toolr, homer, upr, cdr, newdirr, newfiler, viewr, scrollr, scrposr, pathr;
+Rectangle toolr, homer, upr, cdr, newdirr, newfiler, viewr, scrollr, scrposr, pathr, helpr;
 
 char *home;
 char path[PATH_MAX];
@@ -464,6 +464,11 @@ void redraw(void) {
     pathr = rect(p.x, p.y, p.x + text_width(path), p.y + (font->ascent + font->descent));
     draw_text(p, toolfg, path);
     
+    // Draw help icon next to path
+    p.x += text_width(path) + Toolpadding;
+    p.y = toolr.min.y + Toolpadding;
+    helpr = draw_button(&p, toolfg, help_icon);
+    
     // Draw new file/folder buttons (right side)
     p.x = width - 2 * (Toolpadding + 16 + Toolpadding);
     p.y = toolr.min.y + Toolpadding;
@@ -557,6 +562,9 @@ void handle_button_press(XButtonEvent *event) {
                 cd(dir);
                 redraw();
             }
+        } else if (ptinrect(p, helpr)) {
+            about_dialog();
+            redraw();
         } else if (ptinrect(p, newdirr)) {
             char name[256] = {0};
             if (text_input("Create directory", name, sizeof(name))) {
@@ -736,7 +744,7 @@ int main(int argc, char *argv[]) {
     // Initialize
     readhome();
     initcolors();
-    init_icons(display, window, gc);
+    init_icons(display, window, gc, font);
     loaddirs();
     handle_resize(width, height);
     
