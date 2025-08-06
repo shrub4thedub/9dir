@@ -20,13 +20,11 @@ here is an image.
 ## installation
 
 ```bash
-# Install dependencies (Debian/Ubuntu)
+# Install dependencies (debian-based)
 sudo apt-get install libx11-dev build-essential
-
-# Build the application
+git clone https://github.com/shrub4thedub/9dir
+cd 9dir
 make
-
-# Install system-wide (optional)
 sudo make install
 ```
 
