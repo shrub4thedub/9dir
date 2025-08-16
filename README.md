@@ -16,13 +16,13 @@ much of this is to be tested - there are likely bugs
 ## installation
 
 ```bash
-# Install dependencies (Debian/Ubuntu)
+# install dependencies (Debian/Ubuntu)
 sudo apt-get install libx11-dev build-essential
 
-# Build the application
+# build the application
 make
 
-# Install system-wide (optional)
+# install system-wide (optional)
 sudo make install
 ```
 
@@ -99,10 +99,10 @@ All colors use hex format (#RRGGBB):
 ## usage
 
 ```bash
-# Start vdir in current directory
+# start vdir in current directory
 9dir
 
-# Start vdir in specific directory
+# start vdir in specific directory
 9dir /path/to/directory
 ```
 
