@@ -6,6 +6,10 @@ this software is provided to you by shrub industries under the terms of the GNU 
 
 much of this is to be tested - there are likely bugs
 
+here is an image.
+
+<img width="1600" height="900" alt="9dir" src="https://github.com/user-attachments/assets/097feb2d-4326-40ff-bae4-e11ca10673a8" />
+
 ## dependencies
 
 - X11 development libraries (`libx11-dev` on Debian/Ubuntu)
@@ -15,11 +19,10 @@ much of this is to be tested - there are likely bugs
 
 ## installation
 
-```bash
-# install dependencies (Debian/Ubuntu)
+# Install dependencies (debian-based)
 sudo apt-get install libx11-dev build-essential
-
-# build the application
+git clone https://github.com/shrub4thedub/9dir
+cd 9dir
 make
 
 # install system-wide (optional)
